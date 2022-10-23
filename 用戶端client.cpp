@@ -1,21 +1,21 @@
 #include <WinSock2.h>
 #include <Windows.h>
 #include <stdio.h>
-#include <graphics.h> //easyX¹Ï§Î®w
+#include <graphics.h> //easyXåœ–å½¢åº«
 #include<vector>
 #include<mmsystem.h>
-#pragma comment(lib,"winmm.lib")//ÀRºA®w
+#pragma comment(lib,"winmm.lib")//éœæ…‹åº«
 #pragma comment(lib,"ws2_32.lib")
 #pragma warning(disable:4996)
 using namespace std;
 SOCKET sSocket;
-void scanfAndSend();//°õ¦æºü¨ç¼Æ
+void scanfAndSend();//åŸ·è¡Œç·’å‡½æ•¸
 void gif();//gif
-void buttom();//«ö¶s¨Æ¥ó
+void buttom();//æŒ‰éˆ•äº‹ä»¶
 constexpr auto swidth = 1200;
 constexpr auto sheight = 600;
 int si = 0;
-//«ö¶sÂIÀ»§P©w
+//æŒ‰éˆ•é»æ“Šåˆ¤å®š
 bool pointinrect(int x, int y, RECT& r)
 {
 	return(r.left <= x && x <= r.right && r.top <= y && y <= r.bottom);
@@ -42,100 +42,100 @@ void resume()
 int main()
 {
 	SetConsoleTitle("momotalk_client");
-	printf("---------------------------------------------Åwªï¨Ï¥Îmomotalk!---------------------------------------------\n");
-	//½T©w¨óÄ³ª©¥»
+	printf("---------------------------------------------æ­¡è¿ä½¿ç”¨momotalk!---------------------------------------------\n");
+	//ç¢ºå®šå”è­°ç‰ˆæœ¬
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
 	{
-		printf("½Ğ¨Dªº¨óÄ³ª©¥»¤£¬O2.2ª©¥»\n");
-		WSACleanup();//²M²z¨óÄ³ª©¥»«H®§
+		printf("è«‹æ±‚çš„å”è­°ç‰ˆæœ¬ä¸æ˜¯2.2ç‰ˆæœ¬\n");
+		WSACleanup();//æ¸…ç†å”è­°ç‰ˆæœ¬ä¿¡æ¯
 		system("pause");
 		return -1;
 	}
-	printf("½Ğ¨Dªº¨óÄ³ª©¥»¬O2.2ª©¥»!\n");
+	printf("è«‹æ±‚çš„å”è­°ç‰ˆæœ¬æ˜¯2.2ç‰ˆæœ¬!\n");
 
-	//³Ğ«Øsocket
+	//å‰µå»ºsocket
 	sSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (SOCKET_ERROR == sSocket)
 	{
-		printf("³Ğ«Øsocketg¥¢±Ñ,¿ù»~­ì¦]:%d\n", GetLastError);
+		printf("å‰µå»ºsocketgå¤±æ•—,éŒ¯èª¤åŸå› :%d\n", GetLastError);
 		system("pause");
 		return -2;
 	}
-	printf("³Ğ«Øsocket¦¨¥\\n\n");
+	printf("å‰µå»ºsocketæˆåŠŸ\n\n");
 
-	//¿é¤J¦øªA¾¹IP
+	//è¼¸å…¥ä¼ºæœå™¨IP
 	char mip[32]="";
-	printf("½Ğ¿é¤J¦øªA¾¹IP:");
+	printf("è«‹è¼¸å…¥ä¼ºæœå™¨IP:");
 	scanf("%s",mip);
 	
-	//½T©w¦øªA¾¹¨óÄ³®M²Õ
+	//ç¢ºå®šä¼ºæœå™¨å”è­°å¥—çµ„
 	SOCKADDR_IN addr = { 0 };
-	addr.sin_family = AF_INET;//©Msocket¨ç¼Æ²Ä¤@°Ñ¼Æ«O«ù¤@­P
+	addr.sin_family = AF_INET;//å’Œsocketå‡½æ•¸ç¬¬ä¸€åƒæ•¸ä¿æŒä¸€è‡´
 	addr.sin_addr.S_un.S_addr = inet_addr(mip);
-	addr.sin_port = htons(10086);//¤j¤pºİ§ÇÂà´«
+	addr.sin_port = htons(10086);//å¤§å°ç«¯åºè½‰æ›
 
-	//³s±µ¦øªA¾¹
+	//é€£æ¥ä¼ºæœå™¨
 	int r = connect(sSocket, (sockaddr*)&addr, sizeof addr);
 	if (-1 == r)
 	{
-		printf("³s±µ¦øªA¾¹¥¢±Ñ,¿ù»~­ì¦]: %d\n", GetLastError);
+		printf("é€£æ¥ä¼ºæœå™¨å¤±æ•—,éŒ¯èª¤åŸå› : %d\n", GetLastError);
 		system("pause");
 		return -2;
 	}
 
-	//³Ğ«Ø¦h°õ¦æºü
+	//å‰µå»ºå¤šåŸ·è¡Œç·’
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)scanfAndSend, NULL, NULL, NULL);
-	char buff[256];//¥Î¤áºİ¦r²Å¦ê
-	int n = 4;//¦æ¼Æ,¥Î¨Ó§PÂ_²M«Ì®É¾÷
-	char name [256];//¥Î¤áºİ¼ÊºÙ
+	char buff[256];//ç”¨æˆ¶ç«¯å­—ç¬¦ä¸²
+	int n = 4;//è¡Œæ•¸,ç”¨ä¾†åˆ¤æ–·æ¸…å±æ™‚æ©Ÿ
+	char name [256];//ç”¨æˆ¶ç«¯æš±ç¨±
 	while (1)
 	{
-		r = recv(sSocket, buff, 255, NULL);//¦øªA¾¹±µ¦¬´`Àô	
+		r = recv(sSocket, buff, 255, NULL);//ä¼ºæœå™¨æ¥æ”¶å¾ªç’°	
 		if (r > 0)
 		{
-			buff[r] = 0;//µ²§ô²Å¸¹		
+			buff[r] = 0;//çµæŸç¬¦è™Ÿ		
 			settextcolor(BLACK);
-			outtextxy(0, n * 20, buff);//Åı°T®§±q¤W©¹¤U					
+			outtextxy(0, n * 20, buff);//è®“è¨Šæ¯å¾ä¸Šå¾€ä¸‹					
 			n++;
 			if (n > 25)
 			{
 				n = 4;
-				cleardevice();//·í²á¤Ñ«Ç¨ì²Ä21¦æ,²M«Ì
+				cleardevice();//ç•¶èŠå¤©å®¤åˆ°ç¬¬21è¡Œ,æ¸…å±
 				CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)buttom, NULL, NULL, NULL);
 			}			
 		}		
 	}
-	while (1);//°±¹y
+	while (1);//åœé “
 	return 0;
 }
 
 
-//°õ¦æºü¨ç¼Æ
+//åŸ·è¡Œç·’å‡½æ•¸
 void scanfAndSend()
 {
-	printf("----------------³s±µ¦¨¥\----------------\n ");
-	//³q«H
+	printf("----------------é€£æ¥æˆåŠŸ----------------\n ");
+	//é€šä¿¡
 	char buff[256];
 	char name[256];
-	printf("½Ğ¿é¤J±zªº¼ÊºÙ: ");
+	printf("è«‹è¼¸å…¥æ‚¨çš„æš±ç¨±: ");
 	scanf("%s", name);
 	
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)gif, NULL, NULL, NULL);
 	
-	printf("\n----------------Åwªï¨Ó¨ìmomotalk----------------\n ");
-	printf("½Ğ¿é¤J­nµo°eªº¤º®e:\n ");
+	printf("\n----------------æ­¡è¿ä¾†åˆ°momotalk----------------\n ");
+	printf("è«‹è¼¸å…¥è¦ç™¼é€çš„å…§å®¹:\n ");
 	while (1)
 	{			
-		memset(buff, 0, 256);//²MªÅ¼Æ¾Ú	
+		memset(buff, 0, 256);//æ¸…ç©ºæ•¸æ“š	
 		scanf("%s", buff);
-		send(sSocket, buff, strlen(buff), NULL);//µo°eµ¹¦øªA¾¹
+		send(sSocket, buff, strlen(buff), NULL);//ç™¼é€çµ¦ä¼ºæœå™¨
 		send(sSocket, name, strlen(name), NULL);
 	}
 }
 
-//gif¹Ï
+//gifåœ–
 void gif()
 {	
 	initgraph(swidth, sheight, 1);
@@ -171,21 +171,21 @@ void gif()
 	}
 }
 
-//«ö¶s
+//æŒ‰éˆ•
 void buttom()
 {
 	music();
 	settextcolor(WHITE);
-	outtextxy(0, 0, "--------------------Åwªï¨Ï¥Îmomotalk-----------------------------");
-	outtextxy(0, 20,"ª`·N:³æ¦æ¤å¦r½ĞºÉ¶q¤£¶W¹L10­Ó¦r");
-	outtextxy(0, 40,"¨C¹j20¦æ·|¶i¦æ¤@¦¸²M«Ì");
+	outtextxy(0, 0, "--------------------æ­¡è¿ä½¿ç”¨momotalk-----------------------------");
+	outtextxy(0, 20,"æ³¨æ„:å–®è¡Œæ–‡å­—è«‹ç›¡é‡ä¸è¶…é10å€‹å­—");
+	outtextxy(0, 40,"æ¯éš”20è¡Œæœƒé€²è¡Œä¸€æ¬¡æ¸…å±");
 	outtextxy(0, 60,"--------------------------------------------------------------------------");
 	while (true)
 	 {
 		settextcolor(WHITE);
 		outtextxy(0,520 , "--------------------------------------------------------------------");
-		LPCTSTR tplay = _T("Ä~Äò­µ¼Ö¼½©ñ"); LPCTSTR tpause = _T("¼È°±­µ¼Ö¼½©ñ");
-		LPCTSTR texit = _T("°h¥X²á¤Ñ«Ç");
+		LPCTSTR tplay = _T("ç¹¼çºŒéŸ³æ¨‚æ’­æ”¾"); LPCTSTR tpause = _T("æš«åœéŸ³æ¨‚æ’­æ”¾");
+		LPCTSTR texit = _T("é€€å‡ºèŠå¤©å®¤");
 		RECT tplayr, tpauser, texitr;
 		tplayr.left = 20;
 		tplayr.right = tplayr.left + 50;
