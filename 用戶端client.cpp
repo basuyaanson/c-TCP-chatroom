@@ -43,17 +43,17 @@ int main()
 {
 	SetConsoleTitle("momotalk_client");
 	printf("---------------------------------------------歡迎使用momotalk!---------------------------------------------\n");
-	//確定協議版本
+	//初始化Winsock
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2)
 	{
-		printf("請求的協議版本不是2.2版本\n");
-		WSACleanup();//清理協議版本信息
+		printf("初始化Winsock失敗\n");
+		WSACleanup();//清理Winsock
 		system("pause");
 		return -1;
 	}
-	printf("請求的協議版本是2.2版本!\n");
+	printf("初始化Winsock成功!\n");
 
 	//創建socket
 	sSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -70,11 +70,11 @@ int main()
 	printf("請輸入伺服器IP:");
 	scanf("%s",mip);
 	
-	//確定伺服器協議套組
+	//確定IP地址
 	SOCKADDR_IN addr = { 0 };
-	addr.sin_family = AF_INET;//和socket函數第一參數保持一致
+	addr.sin_family = AF_INET;//使用IPv4
 	addr.sin_addr.S_un.S_addr = inet_addr(mip);
-	addr.sin_port = htons(10086);//大小端序轉換
+	addr.sin_port = htons(10086);//通訊埠
 
 	//連接伺服器
 	int r = connect(sSocket, (sockaddr*)&addr, sizeof addr);
