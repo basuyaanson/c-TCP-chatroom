@@ -10,11 +10,11 @@
 using namespace std;
 SOCKET sSocket;
 void scanfAndSend();//執行緒函數
-void gif();//gif
+void gif();//動態圖
 void buttom();//按鈕事件
-constexpr auto swidth = 1200;
+constexpr auto swidth = 1200;//聊天室長寬
 constexpr auto sheight = 600;
-int si = 0;
+int si = 0;//全局變量，用來防止音樂多次播放
 //按鈕點擊判定
 bool pointinrect(int x, int y, RECT& r)
 {
