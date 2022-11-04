@@ -116,9 +116,9 @@ int main()
 void scanfAndSend()
 {
 	printf("----------------連接成功----------------\n ");
-	//通信
-	char buff[256];
-	char name[256];
+	
+	char buff[256];\\字串
+	char name[256];\\暱稱
 	printf("請輸入您的暱稱: ");
 	scanf("%s", name);
 	
@@ -147,7 +147,7 @@ void gif()
 	vector<IMAGE> run;
 	TCHAR imgname[256];
 	
-	for (int i = 0; i < 234; i++)
+	for (int i = 0; i < 234; i++)\\遍歷載入圖片，使用vector儲存
 	{
 		_stprintf_s(imgname, "./gif/(%d).jpg", i);
 		IMAGE g1;
@@ -157,7 +157,7 @@ void gif()
 
 	IMAGE imgshow;
 	int i = 0;
-	while (1)
+	while (1)\\遍歷打印圖片
 	{
 		if (i == 231)
 		{
