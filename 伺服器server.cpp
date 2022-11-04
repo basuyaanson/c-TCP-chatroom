@@ -69,7 +69,7 @@ int main()
 		printf("監聽失敗: % d\n", GetLastError);
 		system("pause");
 		closesocket(sSocket); //斷開連線
-		WSACleanup();//清理Winsock
+		WSACleanup();
 		
 		return -2;
 	}
@@ -86,7 +86,7 @@ int main()
 			printf("伺服器崩潰: % d\n", GetLastError);
 			system("pause");
 			closesocket(sSocket); //斷開連線
-			WSACleanup();//清理Winsock
+			WSACleanup();
 			
 			return -3;
 		}
